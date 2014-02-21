@@ -18,7 +18,10 @@ public class Reddit {
 		@DatabaseField(generatedId = true)
 		@JsonIgnore
 		private int id;
-
+		
+		@JsonProperty("after")
+		private String after;
+	
 		@DatabaseField
 		@JsonProperty("url")
 		private String url;
@@ -86,6 +89,14 @@ public class Reddit {
 
 		public void setUrl(String url) {
 			this.url = url;
+		}
+		
+		public String getAfter() {
+			return after;
+		}
+
+		public void setAfter(String after) {
+			this.after = after;
 		}
 
 		@Override

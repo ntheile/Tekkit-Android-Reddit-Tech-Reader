@@ -8,17 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <!-- <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
- -->
     <ListView
         android:id="@+id/listViewToDo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="6dip"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         tools:listitem="@layout/row_reddit" >
     </ListView>
+
+  
 
 </RelativeLayout>

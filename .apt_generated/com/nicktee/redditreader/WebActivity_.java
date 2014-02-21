@@ -34,8 +34,8 @@ public final class WebActivity_
     }
 
     private void afterSetContentView_() {
-        webView = ((WebView) findViewById(id.webView));
         webProgress = ((ProgressBar) findViewById(id.webProgress));
+        webView = ((WebView) findViewById(id.webView));
         afterView();
     }
 

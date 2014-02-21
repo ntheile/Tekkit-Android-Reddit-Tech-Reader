@@ -12,4 +12,9 @@ public interface IRedditService {
 	
 		@Get("http://www.reddit.com/r/Android/.json")
 		JsonNode getRedditsAsJSON();
+		
+		@Get("http://www.reddit.com/r/Android/.json?count=25&after={after}")
+		JsonNode getRedditsAsJSONPage(String after);
+		
+		
 }

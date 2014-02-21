@@ -128,6 +128,24 @@ public final class MainActivity_
     }
 
     @Override
+    public void updateRedditsAdapter() {
+        handler_.post(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    MainActivity_.super.updateRedditsAdapter();
+                } catch (RuntimeException e) {
+                    Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
+                }
+            }
+
+        }
+        );
+    }
+
+    @Override
     public void showResult(final List<Reddit> redditList, final boolean shouldHideProgress) {
         handler_.post(new Runnable() {
 
@@ -172,6 +190,24 @@ public final class MainActivity_
             public void run() {
                 try {
                     MainActivity_.super.getRedditInBackground();
+                } catch (RuntimeException e) {
+                    Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
+                }
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void getMoreRedditsInBackground() {
+        BackgroundExecutor.execute(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    MainActivity_.super.getMoreRedditsInBackground();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }

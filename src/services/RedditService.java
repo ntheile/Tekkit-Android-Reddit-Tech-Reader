@@ -19,10 +19,17 @@ public class RedditService extends IRedditService_ {
 	@RestService
 	IRedditService redditService;
 
-	public List<Reddit> getRedditsList(){
+	public List<Reddit> getRedditsList(String after){
 	
 		List<Reddit> reddits = new ArrayList<Reddit>();
-		JsonNode json = redditService.getRedditsAsJSON();
+		JsonNode json;
+		if (after == null){
+			 json = redditService.getRedditsAsJSON();	
+		}
+		else{
+			json = redditService.getRedditsAsJSONPage(after);
+		}
+		
 		
 		// Map json to Reddit model
 		JsonNode dataNode = json.get("data");
@@ -33,6 +40,7 @@ public class RedditService extends IRedditService_ {
 				r = JsonUtils.defaultMapper().readValue(c,
 						new TypeReference<Reddit>() {
 						});
+				r.setAfter(json.findValue("after").asText());
 				reddits.add(r);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -42,5 +50,6 @@ public class RedditService extends IRedditService_ {
 		return reddits;
 		
 	}
-
+	
+	
 }
