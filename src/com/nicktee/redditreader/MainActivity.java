@@ -3,9 +3,6 @@ package com.nicktee.redditreader;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Reddit;
-import services.DatabaseManager;
-import services.RedditService;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -29,6 +26,9 @@ import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.OptionsMenu;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.nicktee.redditreader.models.Reddit;
+import com.nicktee.redditreader.services.DatabaseManager;
+import com.nicktee.redditreader.services.RedditService;
 
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)

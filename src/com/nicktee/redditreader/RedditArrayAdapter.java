@@ -2,7 +2,6 @@ package com.nicktee.redditreader;
 
 import java.util.List;
 
-import models.Reddit;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nicktee.redditreader.models.Reddit;
 import com.squareup.picasso.Picasso;
 
 public class RedditArrayAdapter extends ArrayAdapter<Reddit>{

@@ -23,8 +23,8 @@ import android.widget.ListView;
 import com.googlecode.androidannotations.api.BackgroundExecutor;
 import com.googlecode.androidannotations.api.SdkVersionHelper;
 import com.nicktee.redditreader.R.layout;
-import models.Reddit;
-import services.RedditService_;
+import com.nicktee.redditreader.models.Reddit;
+import com.nicktee.redditreader.services.RedditService_;
 
 public final class MainActivity_
     extends MainActivity
@@ -182,14 +182,14 @@ public final class MainActivity_
     }
 
     @Override
-    public void getRedditInBackground() {
+    public void getMoreRedditsInBackground() {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    MainActivity_.super.getRedditInBackground();
+                    MainActivity_.super.getMoreRedditsInBackground();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -200,14 +200,14 @@ public final class MainActivity_
     }
 
     @Override
-    public void getMoreRedditsInBackground() {
+    public void getRedditInBackground() {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    MainActivity_.super.getMoreRedditsInBackground();
+                    MainActivity_.super.getRedditInBackground();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }

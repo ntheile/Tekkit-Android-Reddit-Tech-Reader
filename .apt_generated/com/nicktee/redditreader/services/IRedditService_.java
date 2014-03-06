@@ -3,7 +3,7 @@
 //
 
 
-package services;
+package com.nicktee.redditreader.services;
 
 import java.util.HashMap;
 import org.codehaus.jackson.JsonNode;
@@ -27,19 +27,19 @@ public class IRedditService_
     }
 
     @Override
-    public JsonNode getRedditsAsJSON() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        HttpEntity<Object> requestEntity = new HttpEntity<Object>(httpHeaders);
-        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/Android/.json"), HttpMethod.GET, requestEntity, JsonNode.class).getBody();
-    }
-
-    @Override
     public JsonNode getRedditsAsJSONPage(String after) {
         HashMap<String, Object> urlVariables = new HashMap<String, Object>();
         urlVariables.put("after", after);
         HttpHeaders httpHeaders = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(httpHeaders);
         return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/Android/.json?count=25&after={after}"), HttpMethod.GET, requestEntity, JsonNode.class, urlVariables).getBody();
+    }
+
+    @Override
+    public JsonNode getRedditsAsJSON() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        HttpEntity<Object> requestEntity = new HttpEntity<Object>(httpHeaders);
+        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/Android/.json"), HttpMethod.GET, requestEntity, JsonNode.class).getBody();
     }
 
 }

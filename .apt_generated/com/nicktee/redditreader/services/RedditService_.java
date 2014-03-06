@@ -3,7 +3,7 @@
 //
 
 
-package services;
+package com.nicktee.redditreader.services;
 
 import android.app.Activity;
 import android.content.Context;

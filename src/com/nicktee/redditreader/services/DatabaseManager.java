@@ -1,9 +1,10 @@
-package services;
+package com.nicktee.redditreader.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import models.Reddit;
+import com.nicktee.redditreader.models.Reddit;
+
 import android.content.Context;
 
 public class DatabaseManager {

@@ -1,4 +1,4 @@
-package utils;
+package com.nicktee.redditreader.utils;
 
 import java.io.IOException;
 

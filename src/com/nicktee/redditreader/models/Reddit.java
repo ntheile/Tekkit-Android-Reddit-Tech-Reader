@@ -1,4 +1,4 @@
-package models;
+package com.nicktee.redditreader.models;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;

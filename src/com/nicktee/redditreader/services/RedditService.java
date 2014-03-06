@@ -1,17 +1,16 @@
-package services;
+package com.nicktee.redditreader.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import models.Reddit;
+import java.util.concurrent.Future;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.type.TypeReference;
 
-import utils.JsonUtils;
-
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.rest.RestService;
+import com.nicktee.redditreader.models.Reddit;
+import com.nicktee.redditreader.utils.JsonUtils;
 
 @EBean
 public class RedditService extends IRedditService_ {
@@ -23,13 +22,19 @@ public class RedditService extends IRedditService_ {
 	
 		List<Reddit> reddits = new ArrayList<Reddit>();
 		JsonNode json;
-		if (after == null){
+		if (after == null || after == ""){
 			 json = redditService.getRedditsAsJSON();	
 		}
 		else{
 			json = redditService.getRedditsAsJSONPage(after);
 		}
 		
+		/*try {
+			Thread.sleep(200);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
 		
 		// Map json to Reddit model
 		JsonNode dataNode = json.get("data");
