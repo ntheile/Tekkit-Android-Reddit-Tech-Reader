@@ -5,6 +5,7 @@
 
 package com.nicktee.redditreader;
 
+import java.sql.SQLException;
 import java.util.List;
 import android.app.Activity;
 import android.content.Context;
@@ -20,32 +21,46 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.googlecode.androidannotations.api.BackgroundExecutor;
 import com.googlecode.androidannotations.api.SdkVersionHelper;
-import com.nicktee.redditreader.R.layout;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
+import com.nicktee.redditreader.models.Prefs;
 import com.nicktee.redditreader.models.Reddit;
+import com.nicktee.redditreader.services.DatabaseHelper;
+import com.nicktee.redditreader.services.MyPrefs_;
 import com.nicktee.redditreader.services.RedditService_;
 
 public final class MainActivity_
     extends MainActivity
 {
 
+    private ConnectionSource connectionSource_;
     private Handler handler_ = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_main);
     }
 
     private void init_(Bundle savedInstanceState) {
+        myPrefs = new MyPrefs_(this);
         injectExtras_();
+        connectionSource_ = OpenHelperManager.getHelper(this, DatabaseHelper.class).getConnectionSource();
+        try {
+            prefsTable = DaoManager.createDao(connectionSource_, Prefs.class);
+        } catch (SQLException e) {
+            Log.e("MainActivity_", "Could not create DAO", e);
+        }
         redditService = RedditService_.getInstance_(this);
     }
 
     private void afterSetContentView_() {
         listViewToDo = ((ListView) findViewById(com.nicktee.redditreader.R.id.listViewToDo));
+        subredditTitle = ((TextView) findViewById(com.nicktee.redditreader.R.id.subredditTitle));
         {
             AdapterView<?> view = ((AdapterView<?> ) findViewById(com.nicktee.redditreader.R.id.listViewToDo));
             if (view!= null) {
@@ -128,24 +143,6 @@ public final class MainActivity_
     }
 
     @Override
-    public void updateRedditsAdapter() {
-        handler_.post(new Runnable() {
-
-
-            @Override
-            public void run() {
-                try {
-                    MainActivity_.super.updateRedditsAdapter();
-                } catch (RuntimeException e) {
-                    Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
-                }
-            }
-
-        }
-        );
-    }
-
-    @Override
     public void showResult(final List<Reddit> redditList, final boolean shouldHideProgress) {
         handler_.post(new Runnable() {
 
@@ -164,14 +161,32 @@ public final class MainActivity_
     }
 
     @Override
-    public void getCachedReddits() {
+    public void updateRedditsAdapter() {
+        handler_.post(new Runnable() {
+
+
+            @Override
+            public void run() {
+                try {
+                    MainActivity_.super.updateRedditsAdapter();
+                } catch (RuntimeException e) {
+                    Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
+                }
+            }
+
+        }
+        );
+    }
+
+    @Override
+    public void getRedditInBackground() {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    MainActivity_.super.getCachedReddits();
+                    MainActivity_.super.getRedditInBackground();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }
@@ -200,14 +215,14 @@ public final class MainActivity_
     }
 
     @Override
-    public void getRedditInBackground() {
+    public void getCachedReddits() {
         BackgroundExecutor.execute(new Runnable() {
 
 
             @Override
             public void run() {
                 try {
-                    MainActivity_.super.getRedditInBackground();
+                    MainActivity_.super.getCachedReddits();
                 } catch (RuntimeException e) {
                     Log.e("MainActivity_", "A runtime exception was thrown while executing code in a runnable", e);
                 }

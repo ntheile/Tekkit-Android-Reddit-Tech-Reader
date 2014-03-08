@@ -1,13 +1,9 @@
-<menu 
-    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+<menu xmlns:myapp="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-  
-  <!--   <item android:id="@+id/menu_settings"
-        android:myapp="@string/menu_settings"
-        android:orderInCategory="100"/>
-    <item android:id="@+id/menu_refresh" android:title="Refresh"  myapp:showAsAction="always"></item>
-    <item android:id="@+id/menu_reddit" android:title="Reddit"></item>
-     -->
+    <item
+        android:id="@+id/editSubReddits"
+        myapp:showAsAction="always"
+        android:icon="@drawable/ic_drawer"/>
     
 </menu>

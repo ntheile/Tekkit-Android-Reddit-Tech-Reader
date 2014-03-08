@@ -27,19 +27,22 @@ public class IRedditService_
     }
 
     @Override
-    public JsonNode getRedditsAsJSONPage(String after) {
+    public JsonNode getRedditsAsJSONPage(String after, String subreddits) {
         HashMap<String, Object> urlVariables = new HashMap<String, Object>();
+        urlVariables.put("subreddits", subreddits);
         urlVariables.put("after", after);
         HttpHeaders httpHeaders = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(httpHeaders);
-        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/Android/.json?count=25&after={after}"), HttpMethod.GET, requestEntity, JsonNode.class, urlVariables).getBody();
+        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/{subreddits}/.json?count=25&after={after}"), HttpMethod.GET, requestEntity, JsonNode.class, urlVariables).getBody();
     }
 
     @Override
-    public JsonNode getRedditsAsJSON() {
+    public JsonNode getRedditsAsJSON(String subreddits) {
+        HashMap<String, Object> urlVariables = new HashMap<String, Object>();
+        urlVariables.put("subreddits", subreddits);
         HttpHeaders httpHeaders = new HttpHeaders();
         HttpEntity<Object> requestEntity = new HttpEntity<Object>(httpHeaders);
-        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/Android/.json"), HttpMethod.GET, requestEntity, JsonNode.class).getBody();
+        return restTemplate.exchange(rootUrl.concat("http://www.reddit.com/r/{subreddits}/.json"), HttpMethod.GET, requestEntity, JsonNode.class, urlVariables).getBody();
     }
 
 }

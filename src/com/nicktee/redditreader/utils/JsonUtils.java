@@ -1,11 +1,19 @@
 package com.nicktee.redditreader.utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.nicktee.redditreader.RedditArrayAdapter;
+
 import android.util.Log;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class JsonUtils {
 	// this helper method can be used to make JSON parsing a one-line operation
@@ -23,4 +31,15 @@ public class JsonUtils {
 		public static ObjectMapper defaultMapper() {
 		    return sObjectMapper;
 		}
+		
+		public static boolean[] toPrimitiveArray(final List<Boolean> booleanList) {
+		    final boolean[] primitives = new boolean[booleanList.size()];
+		    int index = 0;
+		    for (Boolean object : booleanList) {
+		        primitives[index++] = object;
+		    }
+		    return primitives;
+		}
+		
+		
 }

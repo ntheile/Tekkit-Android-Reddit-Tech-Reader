@@ -1,13 +1,23 @@
+
 package com.nicktee.redditreader.services;
 
-import java.sql.SQLException;
 import java.util.List;
 
+import android.content.Context;
+import android.database.SQLException;
+import android.util.Log;
+
+import com.nicktee.redditreader.models.Prefs;
 import com.nicktee.redditreader.models.Reddit;
 
-import android.content.Context;
-
+/**
+ * @author nicktee
+ * 
+ * Put all code here that deals with the sqlite database
+ * 
+ */
 public class DatabaseManager {
+	
 	static private DatabaseManager instance;
 
     static public void init(Context ctx) {
@@ -28,38 +38,77 @@ public class DatabaseManager {
     private DatabaseHelper getHelper() {
         return helper;
     }
+    
+    
+    
+    //*****************************************************
+    // Prefs
+    //*****************************************************
+
+    public List<Prefs> getAllPrefs(){
+    	
+    	List<Prefs> prefsList = null;
+    	try{
+    		prefsList = getHelper().getPrefsDao().queryForAll();
+    	} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	Log.v("Pref Database", prefsList.get(0).toString() );
+    	
+    	return prefsList;
+    }
+    
+    public void updatePref(Prefs pref){
+    	
+    	try{
+    		getHelper().getPrefsDao().update(pref);
+    	}catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
+
+    
+ 
+    
+    
+    //*****************************************************
+    // Reddits
+    //*****************************************************
 
     public List<Reddit> getAllReddits() {
-        List<Reddit> wishLists = null;
+        List<Reddit> redditLists = null;
         try {
-            wishLists = getHelper().getRedditDao().queryForAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return wishLists;
+        	redditLists = getHelper().getRedditDao().queryForAll();
+        } catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+        return redditLists;
     }
     
     public void addReddit(Reddit r) {
         try {
             getHelper().getRedditDao().create(r);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
     }
 
     public void updateReddits(Reddit r) {
         try {
             getHelper().getRedditDao().update(r);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
     }
     
     public void deleteReddits() {
         try {
             getHelper().getRedditDao().deleteBuilder().delete();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
     }
 }

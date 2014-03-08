@@ -2,13 +2,18 @@ package com.nicktee.redditreader.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.type.TypeReference;
 
+import android.util.Log;
+
 import com.googlecode.androidannotations.annotations.EBean;
+import com.googlecode.androidannotations.annotations.OrmLiteDao;
 import com.googlecode.androidannotations.annotations.rest.RestService;
+import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
+import com.j256.ormlite.dao.Dao;
+import com.nicktee.redditreader.models.Prefs;
 import com.nicktee.redditreader.models.Reddit;
 import com.nicktee.redditreader.utils.JsonUtils;
 
@@ -17,24 +22,43 @@ public class RedditService extends IRedditService_ {
 	
 	@RestService
 	IRedditService redditService;
-
-	public List<Reddit> getRedditsList(String after){
 	
+	@Pref
+	MyPrefs_ myPrefs;
+	
+	@OrmLiteDao(helper=DatabaseHelper.class, model=Prefs.class)
+	Dao<Prefs, Integer> db;
+	
+	public List<Reddit> getRedditsList(String after){
+		
+	
+		String subreddits = "Android";
+		
+		try{
+			List<Prefs>prefsList = db.query(db.queryBuilder().where().eq("selected", true).prepare());
+			subreddits = "";
+			for(Prefs p : prefsList){
+				subreddits = subreddits + p.getSubReddits() + "+";
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		Log.v("DBt", subreddits);
+		
+	
+		
 		List<Reddit> reddits = new ArrayList<Reddit>();
 		JsonNode json;
 		if (after == null || after == ""){
-			 json = redditService.getRedditsAsJSON();	
+			 json = redditService.getRedditsAsJSON(subreddits);	
 		}
 		else{
-			json = redditService.getRedditsAsJSONPage(after);
+			json = redditService.getRedditsAsJSONPage(after, subreddits);
 		}
 		
-		/*try {
-			Thread.sleep(200);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
 		
 		// Map json to Reddit model
 		JsonNode dataNode = json.get("data");

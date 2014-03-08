@@ -5,15 +5,22 @@
 
 package com.nicktee.redditreader.services;
 
+import java.sql.SQLException;
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
+import com.nicktee.redditreader.models.Prefs;
 
 public final class RedditService_
     extends RedditService
 {
 
     private Context context_;
+    private ConnectionSource connectionSource_;
 
     private RedditService_(Context context) {
         context_ = context;
@@ -40,7 +47,14 @@ public final class RedditService_
         if (context_ instanceof Activity) {
             Activity activity = ((Activity) context_);
         }
+        myPrefs = new MyPrefs_(context_);
         redditService = new IRedditService_();
+        connectionSource_ = OpenHelperManager.getHelper(context_, DatabaseHelper.class).getConnectionSource();
+        try {
+            db = DaoManager.createDao(connectionSource_, Prefs.class);
+        } catch (SQLException e) {
+            Log.e("RedditService_", "Could not create DAO", e);
+        }
     }
 
     public static RedditService_ getInstance_(Context context) {
